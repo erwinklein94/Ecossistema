@@ -1,24 +1,27 @@
-# EcoDominó Pixel — versão GitHub Pages direta
+# EcoDominó Pixel — versão 4.0 autônoma
 
-Esta versão foi feita para funcionar no GitHub Pages sem build, sem Vite, sem React e sem GitHub Actions.
+Versão estática para GitHub Pages, sem React, sem Vite e sem build.
 
-## Como publicar
+## O que mudou na v4
 
-1. Apague os arquivos antigos do repositório ou crie um repositório novo.
-2. Envie estes arquivos para a branch `main`:
-   - `index.html`
-   - `.nojekyll`
-   - `README.md`
-3. Vá em **Settings > Pages**.
-4. Em **Source**, escolha **Deploy from a branch**.
-5. Escolha:
-   - Branch: `main`
-   - Folder: `/root`
-6. Aguarde o deploy e abra:
-   `https://SEU-USUARIO.github.io/NOME-DO-REPOSITORIO/`
+- Modo vivo automático ligado por padrão.
+- Predadores caçam sozinhos.
+- Herbívoros aumentam quando aparece alimento.
+- Espécies móveis migram sem ação do usuário.
+- Eventos automáticos de chuva, fogo, poluição, crise ambiental, estrada e proteção.
+- Animais com movimento visual contínuo no mapa.
+- Bolhas visuais aparecem no mapa para mostrar eventos em tempo real.
 
-## Por que esta versão resolve a tela branca?
+## Como publicar no GitHub Pages
 
-A versão anterior dependia de Vite/React ser compilado antes do GitHub Pages servir o site. Se o Pages servia o `index.html` direto da raiz, ele tentava abrir `/src/main.jsx`, e isso gerava tela branca.
+Envie para o repositório apenas:
 
-Esta versão é um único `index.html` autossuficiente. O navegador abre direto.
+- `index.html`
+- `.nojekyll`
+- `README.md`
+
+Depois vá em **Settings > Pages** e selecione:
+
+- Source: **Deploy from a branch**
+- Branch: `main`
+- Folder: `/root`
