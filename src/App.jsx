@@ -527,9 +527,9 @@ function App() {
     <div className="app">
       <header className="hero panel">
         <div>
-          <p className="eyebrow">compatível com GitHub Pages · React + Vite · app 100% estático</p>
+          <p className="eyebrow">GitHub Pages /Ecossistema/ · React + Vite · app 100% estático · versão 1.2</p>
           <h1>EcoDominó Pixel</h1>
-          <p>Um ecossistema pixelado onde clima, comida, migração e interferências humanas mudam a cadeia alimentar progressivamente.</p>
+          <p>Um ecossistema pixelado publicado no GitHub Pages, onde clima, comida, migração e interferências humanas mudam a cadeia alimentar progressivamente.</p>
         </div>
         <div className="stats-grid">
           <div><small>fase</small><b>{phase + 1}/{SCENARIOS.length}</b></div>
