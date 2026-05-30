@@ -1,13 +1,152 @@
 <!doctype html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="EcoDominó Pixel: simulador de ecossistema com biomas, migração, clima e interferências humanas." />
-    <title>EcoDominó Pixel</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EcoDominó Pixel</title>
+  <meta name="description" content="Jogo de ecossistema dinâmico com biomas, animais, clima, migração e interferências humanas." />
+  <style>
+    :root{color-scheme:dark;--bg:#09090b;--panel:#141419;--panel2:#1c1c22;--text:#f4f4f5;--muted:#a1a1aa;--lime:#bef264;--red:#fb7185;--sky:#7dd3fc;--yellow:#fde047;--line:#2d2d35}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#20202a 0,#09090b 42%,#050507 100%);color:var(--text);font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace}button,select,input{font:inherit}.wrap{max-width:1480px;margin:auto;padding:16px}.header{display:flex;align-items:center;justify-content:space-between;gap:16px;background:rgba(20,20,25,.92);border:1px solid var(--line);border-radius:20px;padding:16px;box-shadow:0 18px 40px rgba(0,0,0,.28)}h1{margin:0;font-size:clamp(24px,3vw,42px);line-height:1}.subtitle{color:var(--muted);font-size:13px;margin:8px 0 0}.badge{display:inline-flex;align-items:center;gap:6px;background:#27272f;border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-size:12px;color:#d4d4d8}.stats{display:grid;grid-template-columns:repeat(5,minmax(92px,1fr));gap:8px;min-width:520px}.stat{background:#24242c;border:1px solid #33333d;border-radius:14px;padding:10px;text-align:center}.stat span{display:block;color:var(--muted);font-size:11px}.stat b{font-size:20px}.layout{display:grid;grid-template-columns:300px minmax(520px,1fr) 370px;gap:14px;margin-top:14px}.panel{background:rgba(20,20,25,.94);border:1px solid var(--line);border-radius:20px;padding:14px;box-shadow:0 18px 40px rgba(0,0,0,.22)}.panel h2{font-size:18px;margin:0 0 10px}.panel h3{font-size:14px;margin:14px 0 8px}.muted{color:var(--muted)}.small{font-size:12px}.row{display:flex;gap:8px;align-items:center}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.select,.search{width:100%;border:1px solid #3f3f46;border-radius:12px;background:#09090b;color:var(--text);padding:10px}.btn{width:100%;border:0;border-radius:14px;background:var(--lime);color:#111;font-weight:900;padding:12px;cursor:pointer;transition:.15s transform,.15s filter}.btn:hover{transform:translateY(-1px);filter:brightness(1.06)}.btn:disabled{background:#52525b;color:#d4d4d8;cursor:not-allowed;transform:none}.btn2{border:1px solid #3f3f46;background:#09090b;color:#eee;border-radius:12px;padding:10px;cursor:pointer}.btn2.active{background:#fff;color:#111}.actionInfo{background:#09090b;border:1px solid var(--line);border-radius:14px;padding:10px;font-size:12px;line-height:1.45}.phaseBox{background:#09090b;border:1px solid var(--line);border-radius:16px;padding:12px}.progress{height:8px;border-radius:999px;overflow:hidden;background:#27272f}.progress div{height:100%;background:var(--lime);border-radius:inherit}.obj{margin:10px 0}.objTop{display:flex;justify-content:space-between;gap:8px;font-size:11px}.log{display:flex;flex-direction:column;gap:8px;max-height:260px;overflow:auto}.log div{background:#09090b;border:1px solid #22222a;border-radius:12px;padding:8px;font-size:11px;line-height:1.35}.mapHead{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:10px}.map{position:relative;aspect-ratio:32/22;background:#000;border:4px solid #050505;border-radius:18px;overflow:hidden;image-rendering:pixelated}.cells{position:absolute;inset:0;display:grid;grid-template-columns:repeat(32,1fr);grid-template-rows:repeat(22,1fr)}.cell{border:1px solid rgba(0,0,0,.12);cursor:pointer}.cell:hover{filter:brightness(1.35)}.label{position:absolute;background:rgba(0,0,0,.58);padding:5px 8px;border-radius:9px;font-weight:900;font-size:12px;pointer-events:none}.animal{position:absolute;transform:translate(-50%,-50%);background:#fafafa;color:#111;border:2px solid #000;border-radius:6px;padding:2px 4px;font-weight:900;font-size:10px;cursor:pointer;box-shadow:0 6px 10px rgba(0,0,0,.38);z-index:4}.animal.migrated{outline:3px solid var(--yellow)}.biomeCards{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}.biomeCard{background:#09090b;border:1px solid var(--line);border-radius:14px;padding:10px;cursor:pointer}.biomeCard.active{border-color:#fff;background:#24242c}.biomeCard b{font-size:12px}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:8px;font-size:11px;color:#d4d4d8}.speciesList{display:flex;flex-direction:column;gap:7px;max-height:300px;overflow:auto;padding-right:4px}.speciesBtn{width:100%;background:#09090b;color:#eee;border:1px solid var(--line);border-radius:13px;padding:9px;text-align:left;cursor:pointer}.speciesBtn.active{background:var(--lime);color:#111;border-color:var(--lime)}.speciesBtn .role{display:block;opacity:.72;font-size:11px;margin-top:3px}.details{background:#09090b;border:1px solid var(--line);border-radius:16px;padding:12px;margin-top:12px}.pill{display:inline-block;border-radius:999px;padding:4px 8px;font-size:11px;font-weight:900}.alive{background:#86efac;color:#111}.dead{background:#f87171;color:#111}.kv{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.kv div{background:#1e1e25;border-radius:10px;padding:8px;font-size:11px}.footer{margin-top:14px;background:rgba(20,20,25,.94);border:1px solid var(--line);border-radius:18px;padding:12px;color:#d4d4d8;font-size:12px;line-height:1.5}.statusWin{background:#7dd3fc!important;color:#082f49!important}.statusFail{background:#fb7185!important;color:#111!important}@media(max-width:1150px){.layout{grid-template-columns:1fr}.stats{min-width:0;width:100%;grid-template-columns:repeat(2,1fr)}.header{flex-direction:column;align-items:stretch}.biomeCards{grid-template-columns:1fr 1fr}.map{aspect-ratio:32/24}}@media(max-width:620px){.wrap{padding:8px}.stats{grid-template-columns:1fr 1fr}.biomeCards,.grid2{grid-template-columns:1fr}.map{aspect-ratio:1}.label{font-size:10px}.animal{font-size:9px}.panel{padding:10px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="header">
+      <div>
+        <span class="badge">GitHub Pages direto · sem React/Vite · versão 3.0 standalone</span>
+        <h1>EcoDominó Pixel</h1>
+        <p class="subtitle">Jogo de ecossistema dinâmico: 4 biomas, 80 animais, clima automático, vegetação, migração e interferências humanas manuais.</p>
+      </div>
+      <div class="stats">
+        <div class="stat"><span>fase</span><b id="statPhase">1/3</b></div>
+        <div class="stat"><span>tempo</span><b id="statTime">0/90</b></div>
+        <div class="stat"><span>orçamento</span><b id="statBudget">65</b></div>
+        <div class="stat"><span>pontuação</span><b id="statScore">0%</b></div>
+        <div class="stat"><span>espécies</span><b id="statSpecies">80/80</b></div>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel">
+        <h2>Controle humano</h2>
+        <label class="small muted">Interferência manual</label>
+        <select id="actionSelect" class="select"></select>
+        <div class="actionInfo" id="actionInfo"></div>
+        <h3>Bioma alvo</h3>
+        <div class="grid2" id="biomeButtons"></div>
+        <div style="height:10px"></div>
+        <button class="btn" id="applyBtn">Aplicar mudança</button>
+        <div style="height:8px"></div>
+        <div class="grid2">
+          <button class="btn2" id="pauseBtn">Pausar</button>
+          <button class="btn2" id="resetBtn">Reiniciar</button>
+        </div>
+        <h3>Velocidade</h3>
+        <input id="speed" type="range" min="1" max="5" value="2" style="width:100%" />
+        <div class="phaseBox" style="margin-top:14px">
+          <h3 id="phaseTitle" style="margin-top:0"></h3>
+          <p class="small muted" id="phaseSub"></p>
+          <div id="objectives"></div>
+          <button class="btn" id="advanceBtn" style="display:none;background:var(--sky)">Avançar fase</button>
+          <div class="actionInfo statusFail" id="failBox" style="display:none;margin-top:10px">Colapso da fase. Reinicie a campanha.</div>
+        </div>
+        <h3>Eventos recentes</h3>
+        <div class="log" id="log"></div>
+      </section>
+
+      <section class="panel">
+        <div class="mapHead">
+          <div>
+            <h2>Mapa central</h2>
+            <div class="small muted">Clique no quadrante para selecionar. Duplo clique aplica a ação.</div>
+          </div>
+          <div class="badge" id="selectedBadge">Selecionado</div>
+        </div>
+        <div class="map" id="map">
+          <div class="cells" id="cells"></div>
+          <div class="label" style="left:2%;top:2%">🌳 Floresta Tropical</div>
+          <div class="label" style="left:52%;top:2%">🌾 Savana Árida</div>
+          <div class="label" style="left:2%;top:52%">❄️ Tundra Gelada</div>
+          <div class="label" style="left:52%;top:52%">💧 Pantanal Alagado</div>
+          <div id="animalsLayer"></div>
+        </div>
+        <div class="biomeCards" id="biomeCards"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Menu de animais</h2>
+        <p class="small muted">20 animais por bioma, todos diferentes. Espécies com borda amarela migraram.</p>
+        <div class="grid2" id="speciesBiomeFilter"></div>
+        <input class="search" id="search" placeholder="buscar animal, dieta ou característica" style="margin:10px 0" />
+        <div class="speciesList" id="speciesList"></div>
+        <div class="details" id="speciesDetails"></div>
+      </section>
+    </main>
+    <footer class="footer"><b>Como jogar:</b> aplique pequenas interferências e observe o efeito dominó. O sistema reage sozinho: clima altera água, água altera vegetação, vegetação muda alimento, predadores dependem de presas e espécies podem migrar para sobreviver.</footer>
+  </div>
+
+<script>
+(() => {
+  const BIOMES = {
+    floresta:{id:'floresta',name:'Floresta Tropical',emoji:'🌳',color:'#176a3a',light:'#38a169',initial:{vegetation:78,water:82,temp:64,pollution:8,fire:18,human:15,barrier:8,protection:8}},
+    savana:{id:'savana',name:'Savana Árida',emoji:'🌾',color:'#a86f21',light:'#d69e2e',initial:{vegetation:52,water:38,temp:78,pollution:6,fire:42,human:18,barrier:12,protection:6}},
+    tundra:{id:'tundra',name:'Tundra Gelada',emoji:'❄️',color:'#81aebd',light:'#c9e7ef',initial:{vegetation:34,water:54,temp:22,pollution:4,fire:8,human:10,barrier:6,protection:16}},
+    pantanal:{id:'pantanal',name:'Pantanal Alagado',emoji:'💧',color:'#1a6f78',light:'#38b2ac',initial:{vegetation:70,water:92,temp:68,pollution:14,fire:18,human:20,barrier:9,protection:10}}
+  };
+  const ACTIONS = {
+    drought:{name:'Provocar seca',cost:6,desc:'Derruba água, reduz plantas e força migração.'},
+    rain:{name:'Chuva artificial',cost:10,desc:'Aumenta água, reduz risco de fogo e ajuda vegetação.'},
+    fire:{name:'Queimada',cost:7,desc:'Destrói vegetação e mata espécies lentas.'},
+    hunting:{name:'Caça seletiva',cost:8,desc:'Derruba predadores e animais grandes.'},
+    pollution:{name:'Poluição',cost:9,desc:'Atinge peixes, anfíbios e espécies frágeis.'},
+    food:{name:'Oferta de comida',cost:8,desc:'Aumenta herbívoros e depois atrai predadores.'},
+    reserve:{name:'Criar reserva',cost:16,desc:'Reduz pressão humana e recupera o bioma.'},
+    road:{name:'Abrir estrada',cost:12,desc:'Fragmenta habitat e dificulta migração.'}
+  };
+  const SCENARIOS = [
+    {name:'Fase 1 — Primeiro impacto',subtitle:'Cause pequenas mudanças sem destruir a estabilidade inicial.',budget:65,maxTicks:90,objectives:{ecoScore:60,speciesAlive:68,protectedBiomes:1,migrants:2},fail:{ecoScore:35,speciesAlive:45}},
+    {name:'Fase 2 — Cadeia alimentar instável',subtitle:'Mantenha predadores, comida, água e vegetação em equilíbrio.',budget:85,maxTicks:130,objectives:{ecoScore:68,topPredators:20,averageVegetation:48,maxPollution:38},fail:{ecoScore:40,speciesAlive:50}},
+    {name:'Fase 3 — Crise climática total',subtitle:'Proteja vários biomas enquanto clima extremo e migrações aumentam.',budget:105,maxTicks:170,objectives:{ecoScore:75,speciesAlive:62,minWater:28,protectedBiomes:3,maxPollution:35},fail:{ecoScore:45,speciesAlive:55}}
+  ];
+  const FOOD_CHAIN = ['herbívoro de base','herbívoro pequeno','herbívoro médio','herbívoro grande','onívoro oportunista','insetívoro','frugívoro','granívoro','filtrador','predador pequeno','réptil predador','ave predadora','mamífero predador','mesopredador','necrófago','superpredador','engenheiro ecológico','polinizador/dispersor','competidor dominante','espécie-chave'];
+  const NAMES = {
+    floresta:['Anta','Cutia','Preguiça','Macaco-prego','Tucano','Arara-vermelha','Tamanduá-mirim','Sapo-folha','Jiboia','Gavião-real','Onça-pintada','Jaguatirica','Quati','Irara','Coruja-murucututu','Morcego-frugívoro','Borboleta-azul','Formiga-cortadeira','Besouro-rinoceronte','Macuco'],
+    savana:['Elefante-da-savana','Zebra','Gnu','Gazela-de-thomson','Girafa','Rinoceronte-negro','Avestruz','Suricato','Javali-africano','Cão-selvagem-africano','Hiena-malhada','Leão','Leopardo','Chacal','Águia-marcial','Cobra-cuspideira','Lagarto-agama','Abutre-de-rüppell','Cupim-da-savana','Escaravelho'],
+    tundra:['Caribu','Boi-almiscarado','Lebre-ártica','Lêmure-da-tundra','Esquilo-ártico','Ganso-das-neves','Coruja-das-neves','Raposa-ártica','Lobo-ártico','Urso-polar','Foca-anelada','Morsa','Bacalhau-polar','Krill-ártico','Gaivota-marfim','Doninha-ártica','Pombo-guillemot','Mosquito-ártico','Besouro-da-neve','Aranha-lobo-ártica'],
+    pantanal:['Capivara','Cervo-do-pantanal','Bugio-preto','Ariranha','Lontra-neotropical','Jacaré-do-pantanal','Sucuri-verde','Onça-parda','Tuiuiú','Garça-branca','Colhereiro','Piranha-vermelha','Dourado','Pacu','Rã-pimenta',"Cobra-d'água",'Caramujo-maçã','Libélula-verde','Caranguejo-do-brejo','Urubu-de-cabeça-preta']
+  };
+  const DIETS = ['plantas, folhas e brotos','sementes e frutos','folhas novas','frutos, insetos e ovos','frutas e pequenos animais','sementes duras e frutas','formigas e cupins','mosquitos e larvas','roedores e aves','presas de médio porte','grandes herbívoros','roedores, aves e lagartos','frutos, ovos e insetos','mel e pequenos vertebrados','roedores e aves pequenas','frutas e néctar','néctar','folhas e fungos','matéria orgânica morta','sementes, frutos e insetos'];
+  const TRAITS = ['abre caminhos e altera o solo','espalha sementes e ajuda regeneração','sofre quando a vegetação cai','usa inteligência para explorar comida nova','dispersa sementes a longa distância','depende de árvores e alimento duro','controla insetos sociais','é bioindicador de água limpa','controla pequenos vertebrados','predador aéreo de topo','regula herbívoros grandes','caça nas bordas dos biomas','cresce perto de restos humanos','explora ninhos e cavidades','caça melhor à noite','replanta áreas degradadas','poliniza mas é frágil','recicla matéria vegetal','decompõe restos orgânicos','mantém a base da cadeia alimentar'];
+  const clamp=(v,min=0,max=100)=>Math.max(min,Math.min(max,v));
+  const noise=(a,b,c=0)=>{const x=Math.sin(a*12.9898+b*78.233+c*37.719)*43758.5453;return x-Math.floor(x)};
+  const $=id=>document.getElementById(id);
+  let tick=0, phaseTick=0, phaseIndex=0, budget=SCENARIOS[0].budget, running=true, speed=2, selectedBiome='floresta', selectedSpeciesId=null, actionId='drought', logs=['Simulação iniciada. Aplique uma pequena mudança e observe o efeito dominó.'];
+  let biomes=createBiomes(), species=createSpecies();
+  function createBiomes(){return Object.fromEntries(Object.entries(BIOMES).map(([id,b])=>[id,{...b.initial}]))}
+  function initials(name){return name.split(/[- ']/).map(p=>p[0]).join('').slice(0,2).toUpperCase()}
+  function createSpecies(){return Object.entries(NAMES).flatMap(([biome,names])=>names.map((name,index)=>{const rank=index+1;const strength=clamp(12+rank*3.6+noise(index,name.length)*30);const mobility=clamp(20+noise(name.length,index)*76);const flex=clamp(22+noise(rank,name.length,4)*62);const repro=clamp(100-rank*3.5+noise(name.length,rank,6)*26);return {id:`${biome}-${index}`,name,homeBiome:biome,currentBiome:biome,rank,role:FOOD_CHAIN[index],diet:DIETS[index],trait:TRAITS[index],icon:initials(name),strength:Math.round(strength),mobility:Math.round(mobility),flexibility:Math.round(flex),reproduction:Math.round(repro),population:Math.round(38+repro*.8+Math.max(0,16-rank)*2),stress:14,migrated:false,alive:true}}))}
+  function preferredTemp(id){return {floresta:64,savana:78,tundra:22,pantanal:68}[id]}
+  function neighbors(id){return {floresta:['savana','tundra','pantanal'],savana:['floresta','pantanal','tundra'],tundra:['floresta','pantanal','savana'],pantanal:['savana','tundra','floresta']}[id]}
+  function biomeAt(x,y){if(x<16&&y<11)return 'floresta';if(x>=16&&y<11)return 'savana';if(x<16&&y>=11)return 'tundra';return 'pantanal'}
+  function climateName(b){if(b.fire>70)return 'risco de fogo';if(b.water<24)return 'seca severa';if(b.water>86)return 'cheia';if(b.pollution>55)return 'poluído';if(b.temp>80)return 'onda de calor';if(b.temp<20)return 'frio extremo';return 'estável'}
+  function suitability(sp,biomeId,b){let score=sp.homeBiome===biomeId?82:42;score+=(b.vegetation-50)*(sp.rank<=8?.25:.08);score+=(b.water-50)*.12;score-=Math.abs(b.temp-preferredTemp(sp.homeBiome))*(1-sp.flexibility/120);score-=b.pollution*(/mosquitos|pequenos|néctar|matéria/i.test(sp.diet)?.25:.12);if(biomeId==='pantanal'&&/água|pequenos|larvas|peixes/i.test(sp.diet))score+=10;if(biomeId==='savana'&&sp.mobility>70)score+=9;if(biomeId==='tundra'&&sp.flexibility<35)score-=12;return clamp(score)}
+  function applyAction(){const a=ACTIONS[actionId]; if(phaseFailed()){pushLog('A fase entrou em colapso. Reinicie para tentar novamente.');return} if(budget<a.cost){pushLog(`Orçamento insuficiente: ${a.name} custa ${a.cost}, você tem ${budget}.`);return} budget-=a.cost; const b=biomes[selectedBiome]; if(actionId==='drought'){b.water=clamp(b.water-28);b.vegetation=clamp(b.vegetation-18);b.fire=clamp(b.fire+24)} if(actionId==='rain'){b.water=clamp(b.water+28);b.vegetation=clamp(b.vegetation+14);b.fire=clamp(b.fire-20)} if(actionId==='fire'){b.vegetation=clamp(b.vegetation-36);b.fire=clamp(b.fire+36);species.forEach(s=>{if(s.currentBiome===selectedBiome){s.population=Math.round(s.population*(s.mobility>58?.9:.7));s.stress=clamp(s.stress+24)}})} if(actionId==='hunting'){b.human=clamp(b.human+14);species.forEach(s=>{if(s.currentBiome===selectedBiome){const hit=s.strength>70||s.rank>=10?.66:.9;s.population=Math.round(s.population*hit);s.stress=clamp(s.stress+18)}})} if(actionId==='pollution'){b.pollution=clamp(b.pollution+30);b.water=clamp(b.water-10);species.forEach(s=>{if(s.currentBiome===selectedBiome){const sensitive=/larvas|pequenos|néctar|matéria/i.test(s.diet)||s.name.includes('Sapo')||s.name.includes('Rã')||s.name.includes('Krill');if(sensitive){s.population=Math.round(s.population*.62);s.stress=clamp(s.stress+28)}else s.stress=clamp(s.stress+8)}})} if(actionId==='food'){b.vegetation=clamp(b.vegetation+24);species.forEach(s=>{if(s.currentBiome===selectedBiome&&s.rank<=8){s.population=Math.round(s.population*1.18+4);s.stress=clamp(s.stress-10)}})} if(actionId==='reserve'){b.protection=clamp(b.protection+28);b.human=clamp(b.human-16);b.pollution=clamp(b.pollution-10);b.barrier=clamp(b.barrier-10);species.forEach(s=>{if(s.currentBiome===selectedBiome){s.population=Math.round(s.population*1.04+1);s.stress=clamp(s.stress-12)}})} if(actionId==='road'){b.human=clamp(b.human+18);b.barrier=clamp(b.barrier+34);b.vegetation=clamp(b.vegetation-12);species.forEach(s=>{if(s.currentBiome===selectedBiome)s.stress=clamp(s.stress+(s.mobility>70?20:10))})} pushLog(`Interferência: ${a.name} em ${BIOMES[selectedBiome].name}.`); render()}
+  function simulate(){tick++;phaseTick++;Object.entries(biomes).forEach(([id,b])=>{const rain=Math.sin(tick/(id==='pantanal'?8:11))*(id==='pantanal'?.75:.45);const heat=Math.sin(tick/13)*.26;b.temp=clamp(b.temp+heat+(b.human-b.protection)*.01);b.water=clamp(b.water+rain-b.temp*.012-b.human*.01+b.protection*.018);b.fire=clamp(b.fire+(b.temp-55)*.018-b.water*.014+b.human*.018);b.pollution=clamp(b.pollution+b.human*.006-b.protection*.012);b.vegetation=clamp(b.vegetation+b.water*.035+b.protection*.022-b.fire*.03-b.pollution*.016)});if(tick%19===0){const ids=Object.keys(BIOMES);const id=ids[tick%ids.length];biomes[id].water=clamp(biomes[id].water-12);biomes[id].fire=clamp(biomes[id].fire+12);pushLog(`Estação seca atingiu ${BIOMES[id].name}.`)} if(tick%29===0){const ids=Object.keys(BIOMES);const id=ids[(tick+1)%ids.length];biomes[id].water=clamp(biomes[id].water+14);biomes[id].vegetation=clamp(biomes[id].vegetation+8);pushLog(`Chuva forte renovou ${BIOMES[id].name}.`)} const groups=Object.fromEntries(Object.keys(BIOMES).map(id=>[id,[]]));species.forEach(s=>groups[s.currentBiome].push(s));species.forEach(s=>{const b=biomes[s.currentBiome];const local=groups[s.currentBiome];const prey=local.filter(o=>o.rank<s.rank&&o.population>0).reduce((sum,o)=>sum+o.population*.025,0);const pred=local.filter(o=>o.rank>s.rank&&o.strength>s.strength*.85&&o.population>0).reduce((sum,o)=>sum+o.population*o.strength*.00045,0);const fit=suitability(s,s.currentBiome,b);const food=b.vegetation*(s.rank<=8?.14:.035)+prey+b.water*.04;const human=Math.max(0,b.human-b.protection)*(s.strength>70?.045:.02);const pol=b.pollution*(/larvas|pequenos|néctar/i.test(s.diet)?.055:.016);const fire=b.fire>66?(b.fire-66)*(s.mobility<45?.08:.035):0;const gain=(food+fit+s.reproduction*.2)/46;const loss=human+pol+fire+pred+Math.max(0,40-fit)*.04;s.population=Math.max(0,Math.round(s.population+gain-loss-.5+noise(tick,s.rank,s.population)*1.6));s.stress=clamp(s.stress+loss*1.8-gain*.8+(s.currentBiome!==s.homeBiome?.45:-.2));const must=s.stress>68||fit<32||b.water<18||b.vegetation<18;const can=s.mobility>34&&b.barrier<72&&s.population>5;if(must&&can&&tick%4===s.rank%4){const best=neighbors(s.currentBiome).map(id=>({id,score:suitability(s,id,biomes[id])-biomes[id].barrier*.24})).sort((a,b)=>b.score-a.score)[0];if(best&&best.score>fit+5){s.currentBiome=best.id;s.migrated=true;s.stress=clamp(s.stress-14);s.population=Math.max(2,Math.round(s.population*.82));pushLog(`${s.name} migrou para ${BIOMES[s.currentBiome].name}.`)}} if(s.population<=0&&s.alive){s.alive=false;pushLog(`${s.name} entrou em colapso populacional.`)} }); render()}
+  function metrics(){const alive=species.filter(s=>s.population>0).length;const total=species.reduce((a,s)=>a+s.population,0);const migrants=species.filter(s=>s.migrated&&s.population>0).length;const topPredators=species.filter(s=>s.population>0&&s.strength>=70).length;const avgStress=species.reduce((a,s)=>a+s.stress,0)/species.length;const avgVeg=Object.values(biomes).reduce((a,b)=>a+b.vegetation,0)/4;const avgPoll=Object.values(biomes).reduce((a,b)=>a+b.pollution,0)/4;const minWater=Math.min(...Object.values(biomes).map(b=>b.water));const protectedBiomes=Object.values(biomes).filter(b=>b.protection>=25).length;const survival=alive/80*100;const ecoScore=clamp(Math.round(survival*.42+avgVeg*.2+(100-avgPoll)*.18+(100-avgStress)*.12+clamp(total/90)*.08));return{speciesAlive:alive,totalPopulation:total,migrants,topPredators,averageStress:avgStress,averageVegetation:avgVeg,averagePollution:avgPoll,minWater,protectedBiomes,ecoScore}}
+  function objectives(){const m=metrics(), obj=SCENARIOS[phaseIndex].objectives, items=[];function add(k,label,target,suffix='',inverse=false){const v=m[k];const good=inverse?v<=target:v>=target;items.push({label,value:v,target,suffix,inverse,good,progress:inverse?(good?100:clamp(100-((v-target)/target)*100)):clamp(v/target*100)})} if(obj.ecoScore)add('ecoScore','Pontuação ecológica',obj.ecoScore,'%');if(obj.speciesAlive)add('speciesAlive','Espécies vivas',obj.speciesAlive,'/80');if(obj.protectedBiomes)add('protectedBiomes','Áreas protegidas',obj.protectedBiomes);if(obj.migrants)add('migrants','Migração controlada',obj.migrants,' espécies');if(obj.topPredators)add('topPredators','Predadores fortes vivos',obj.topPredators);if(obj.averageVegetation)add('averageVegetation','Vegetação média',obj.averageVegetation,'%');if(obj.maxPollution)add('averagePollution','Poluição média máxima',obj.maxPollution,'%',true);if(obj.minWater)add('minWater','Água mínima entre biomas',obj.minWater,'%');return items}
+  function phaseComplete(){return objectives().every(o=>o.good)} function phaseFailed(){const m=metrics(),s=SCENARIOS[phaseIndex];return !phaseComplete()&&(phaseTick>=s.maxTicks||m.ecoScore<s.fail.ecoScore||m.speciesAlive<s.fail.speciesAlive)}
+  function pushLog(t){logs.unshift(t);logs=logs.slice(0,12)}
+  function reset(){tick=0;phaseTick=0;phaseIndex=0;budget=SCENARIOS[0].budget;running=false;selectedBiome='floresta';selectedSpeciesId=null;biomes=createBiomes();species=createSpecies();logs=['Campanha reiniciada. O ecossistema voltou ao equilíbrio inicial.'];render()}
+  function advance(){if(!phaseComplete()){pushLog('Objetivos incompletos. Estabilize o ecossistema antes de avançar.');return render()} if(phaseIndex>=SCENARIOS.length-1){running=false;pushLog('Campanha concluída: ecossistema funcional até a crise final.');return render()} phaseIndex++;phaseTick=0;budget=Math.min(130,SCENARIOS[phaseIndex].budget+Math.floor(budget*.25));pushLog(`Nova fase iniciada: ${SCENARIOS[phaseIndex].name}.`);render()}
+  function render(){const m=metrics(), sc=SCENARIOS[phaseIndex];$('statPhase').textContent=`${phaseIndex+1}/${SCENARIOS.length}`;$('statTime').textContent=`${phaseTick}/${sc.maxTicks}`;$('statBudget').textContent=budget;$('statScore').textContent=`${m.ecoScore}%`;$('statSpecies').textContent=`${m.speciesAlive}/80`;$('selectedBadge').textContent=`${BIOMES[selectedBiome].emoji} ${BIOMES[selectedBiome].name}`;$('phaseTitle').textContent=sc.name;$('phaseSub').textContent=sc.subtitle;$('pauseBtn').textContent=running?'Pausar':'Rodar';$('applyBtn').disabled=phaseFailed()||budget<ACTIONS[actionId].cost;$('failBox').style.display=phaseFailed()?'block':'none';$('advanceBtn').style.display=phaseComplete()?'block':'none';$('advanceBtn').textContent=phaseIndex>=SCENARIOS.length-1?'Concluir campanha':'Avançar fase';$('actionInfo').innerHTML=`<b>${ACTIONS[actionId].name}</b><br>${ACTIONS[actionId].desc}<br><br>Custo: <b>${ACTIONS[actionId].cost}</b> · Orçamento: <b>${budget}</b>`;$('objectives').innerHTML=objectives().map(o=>`<div class="obj"><div class="objTop"><span>${o.good?'✓':'•'} ${o.label}</span><span>${Math.round(o.value)}${o.suffix} / ${o.inverse?'máx.':'meta'} ${o.target}${o.suffix}</span></div><div class="progress"><div style="width:${o.progress}%"></div></div></div>`).join('');$('log').innerHTML=logs.map(l=>`<div>${escapeHtml(l)}</div>`).join('');renderMap();renderBiomes();renderSpecies()}
+  function renderMap(){const cells=$('cells');let html='';for(let y=0;y<22;y++)for(let x=0;x<32;x++){const id=biomeAt(x,y),b=biomes[id],base=BIOMES[id].color,n=noise(x,y,tick*.03);let color=base;if(b.water>76&&n>.72)color='#175e9c';if(b.fire>66&&n>.7)color='#5a2e19';const op=.55+n*.25+(b.vegetation/100>n?.16:0);html+=`<button class="cell" data-biome="${id}" style="background:${color};opacity:${op}"></button>`}cells.innerHTML=html;cells.querySelectorAll('.cell').forEach(btn=>{btn.onclick=()=>{selectedBiome=btn.dataset.biome;render()};btn.ondblclick=()=>{selectedBiome=btn.dataset.biome;applyAction()}});const layer=$('animalsLayer');layer.innerHTML=species.filter(s=>s.population>0).map((s,i)=>{const left=s.currentBiome==='floresta'||s.currentBiome==='tundra',top=s.currentBiome==='floresta'||s.currentBiome==='savana';const x0=left?0:50,y0=top?0:50;const px=x0+4+noise(i+tick*.07,s.rank,s.population)*42;const py=y0+5+noise(s.rank,i+tick*.05,s.population)*40;return `<button class="animal ${s.migrated?'migrated':''}" data-id="${s.id}" style="left:${px}%;top:${py}%">${s.icon}</button>`}).join('');layer.querySelectorAll('.animal').forEach(btn=>btn.onclick=()=>{selectedSpeciesId=btn.dataset.id;const sp=species.find(s=>s.id===selectedSpeciesId);selectedBiome=sp.homeBiome;render()})}
+  function renderBiomes(){let html='';Object.entries(BIOMES).forEach(([id,info])=>{const b=biomes[id];const current=species.filter(s=>s.currentBiome===id&&s.population>0);const pop=current.reduce((a,s)=>a+s.population,0);const mig=current.filter(s=>s.homeBiome!==id).length;html+=`<button class="biomeCard ${selectedBiome===id?'active':''}" data-id="${id}"><b>${info.emoji} ${info.name}</b><div class="small muted">${climateName(b)}</div><div class="metrics"><span>🌿 veg: <b>${Math.round(b.vegetation)}</b></span><span>💧 água: <b>${Math.round(b.water)}</b></span><span>🔥 fogo: <b>${Math.round(b.fire)}</b></span><span>🏭 pol: <b>${Math.round(b.pollution)}</b></span><span>🐾 pop: <b>${pop}</b></span><span>🚶 mig: <b>${mig}</b></span></div></button>`});$('biomeCards').innerHTML=html;$('biomeCards').querySelectorAll('button').forEach(b=>b.onclick=()=>{selectedBiome=b.dataset.id;render()});}
+  function renderSpecies(){const filters=$('speciesBiomeFilter'), buttons=$('biomeButtons');const biomeBtns=Object.values(BIOMES).map(b=>`<button class="btn2 ${selectedBiome===b.id?'active':''}" data-id="${b.id}">${b.emoji} ${b.name.split(' ')[0]}</button>`).join('');filters.innerHTML=biomeBtns;buttons.innerHTML=biomeBtns;[filters,buttons].forEach(el=>el.querySelectorAll('button').forEach(btn=>btn.onclick=()=>{selectedBiome=btn.dataset.id;render()}));const q=$('search').value.toLowerCase();const list=species.filter(s=>s.homeBiome===selectedBiome).filter(s=>(s.name+' '+s.diet+' '+s.trait+' '+s.role).toLowerCase().includes(q));if(!selectedSpeciesId||!species.find(s=>s.id===selectedSpeciesId))selectedSpeciesId=list[0]?.id;let html=list.map(s=>`<button class="speciesBtn ${selectedSpeciesId===s.id?'active':''}" data-id="${s.id}"><b>${s.icon} ${s.name}</b><span class="role">#${s.rank} · ${s.role} · pop ${s.population}</span></button>`).join('');$('speciesList').innerHTML=html;$('speciesList').querySelectorAll('button').forEach(b=>b.onclick=()=>{selectedSpeciesId=b.dataset.id;render()});const s=species.find(x=>x.id===selectedSpeciesId)||list[0];if(!s){$('speciesDetails').innerHTML='<span class="muted">Nenhum animal encontrado.</span>';return}$('speciesDetails').innerHTML=`<div class="row" style="justify-content:space-between"><h2 style="margin:0">${s.icon} ${s.name}</h2><span class="pill ${s.population>0?'alive':'dead'}">${s.population>0?'vivo':'colapso'}</span></div><div class="kv"><div>bioma original<br><b>${BIOMES[s.homeBiome].name}</b></div><div>bioma atual<br><b>${BIOMES[s.currentBiome].name}</b></div><div>população<br><b>${s.population}</b></div><div>estresse<br><b>${Math.round(s.stress)}</b></div><div>força<br><b>${s.strength}</b></div><div>mobilidade<br><b>${s.mobility}</b></div></div><p class="small"><b>Dieta:</b> ${s.diet}</p><p class="small"><b>Função:</b> ${s.trait}</p><p class="small"><b>Cadeia:</b> #${s.rank} — ${s.role}</p>${s.migrated?'<p class="actionInfo" style="background:var(--yellow);color:#111"><b>Esta espécie já migrou e vive fora do padrão original.</b></p>':''}`}
+  function escapeHtml(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+  Object.entries(ACTIONS).forEach(([id,a])=>{$('actionSelect').insertAdjacentHTML('beforeend',`<option value="${id}">${a.name} · ${a.cost} pts</option>`)});$('actionSelect').onchange=e=>{actionId=e.target.value;render()};$('applyBtn').onclick=applyAction;$('pauseBtn').onclick=()=>{running=!running;render()};$('resetBtn').onclick=reset;$('advanceBtn').onclick=advance;$('speed').oninput=e=>{speed=Number(e.target.value)};$('search').oninput=render;
+  function loop(){if(running&&!phaseFailed())simulate();setTimeout(loop,Math.max(180,950-speed*150))}
+  render();loop();
+})();
+</script>
+</body>
 </html>

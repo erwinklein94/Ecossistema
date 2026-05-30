@@ -1,57 +1,24 @@
-# EcoDominó Pixel
+# EcoDominó Pixel — versão GitHub Pages direta
 
-Jogo/simulador de ecossistema em React + Vite, compatível com GitHub Pages.
+Esta versão foi feita para funcionar no GitHub Pages sem build, sem Vite, sem React e sem GitHub Actions.
 
-## O que o jogo tem
+## Como publicar
 
-- 4 biomas excludentes no mapa central.
-- 20 animais por bioma, totalizando 80 espécies únicas.
-- Menu com dieta, função ecológica, força, mobilidade, estresse e população.
-- Clima automático, crescimento de vegetação, água, fogo e poluição.
-- Interferências humanas manuais.
-- Migração entre biomas.
-- Campanha com fases, orçamento, objetivos, vitória e colapso.
-- Visual simples pixelado.
+1. Apague os arquivos antigos do repositório ou crie um repositório novo.
+2. Envie estes arquivos para a branch `main`:
+   - `index.html`
+   - `.nojekyll`
+   - `README.md`
+3. Vá em **Settings > Pages**.
+4. Em **Source**, escolha **Deploy from a branch**.
+5. Escolha:
+   - Branch: `main`
+   - Folder: `/root`
+6. Aguarde o deploy e abra:
+   `https://SEU-USUARIO.github.io/NOME-DO-REPOSITORIO/`
 
-## Rodar localmente
+## Por que esta versão resolve a tela branca?
 
-```bash
-npm install
-npm run dev
-```
+A versão anterior dependia de Vite/React ser compilado antes do GitHub Pages servir o site. Se o Pages servia o `index.html` direto da raiz, ele tentava abrir `/src/main.jsx`, e isso gerava tela branca.
 
-## Gerar versão de produção
-
-```bash
-npm run build
-npm run preview
-```
-
-## Publicar no GitHub Pages
-
-1. Crie um repositório no GitHub.
-2. Envie todos os arquivos deste projeto para a branch `main`.
-3. No repositório, vá em **Settings > Pages**.
-4. Em **Build and deployment**, selecione **GitHub Actions**.
-5. Faça um push para `main`.
-6. O workflow `.github/workflows/deploy.yml` vai gerar o site automaticamente.
-
-O `vite.config.js` usa `base: './'`, então o jogo funciona tanto em:
-
-- `https://usuario.github.io/repositorio/`
-- previews locais do Vite
-- hospedagens estáticas simples
-
-## Estrutura
-
-```text
-.
-├── .github/workflows/deploy.yml
-├── index.html
-├── package.json
-├── vite.config.js
-└── src
-    ├── App.jsx
-    ├── main.jsx
-    └── styles.css
-```
+Esta versão é um único `index.html` autossuficiente. O navegador abre direto.
